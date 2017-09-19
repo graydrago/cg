@@ -7,7 +7,6 @@
 
 class App {
     private:
-      //std::map<std::string, std::unique_ptr<Experiment>> m_experiment_list;
       App();
 
     public:

@@ -3,7 +3,6 @@
 #include <GL/gl.h>
 
 #include "../core/experiment.cpp"
-#include "../core/app.cpp"
 
 class Experiment_2_1 : public Experiment {
     public:
