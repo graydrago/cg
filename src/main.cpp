@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     std::unique_ptr<Experiment> experiment;
-    selectExperiment("2.1", experiment);
+    selectExperiment("2.5", experiment);
     std::string DEFAULT_TITLE = "CG";
 
     for (int i = 0; i < argc; ++i) {
@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
     bool play = true;
     glClearColor(0, 0, 0, 1);
 
+    experiment->init();
     Uint32 start_time = SDL_GetTicks();
     std::string text;
     SDL_StopTextInput();
@@ -78,6 +79,7 @@ int main(int argc, char *argv[]) {
                         if (events.key.keysym.sym == SDLK_RETURN) {
                             SDL_StopTextInput();
                             selectExperiment(text, experiment);
+                            experiment->init();
                             text = DEFAULT_TITLE;
                             SDL_SetWindowTitle(window.get(), text.c_str());
                         } else if (events.key.keysym.sym == SDLK_BACKSPACE) {

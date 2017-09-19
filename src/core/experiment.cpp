@@ -10,7 +10,9 @@ class Experiment {
         std::string m_name;
 
     public:
-        Experiment(std::string name) : m_name(name) {};
+        Experiment(std::string name) : m_name(name) {
+            SDL_Log("Created: %s", name.c_str());
+        };
         virtual ~Experiment() { SDL_Log("Destroyed: %s", m_name.c_str()); };
         virtual void init() {};
         virtual void update(double) {};
