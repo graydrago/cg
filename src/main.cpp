@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     std::unique_ptr<Experiment> experiment;
-    selectExperiment("e2.12", experiment);
+    selectExperiment("e2.14", experiment);
     std::string DEFAULT_TITLE = "CG";
 
     for (int i = 0; i < argc; ++i) {
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     auto make_window = [&DEFAULT_TITLE]() -> SDL_Window* {
         return SDL_CreateWindow(
                DEFAULT_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-               1024, 768,
+               768, 768,
                SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     };
     std::unique_ptr<SDL_Window, decltype(deleter)> window(make_window(), deleter);
@@ -113,6 +113,11 @@ int main(int argc, char *argv[]) {
         Uint32 elapsed_time = SDL_GetTicks();
         Uint32 tick = (elapsed_time - start_time) * 0.001;
         start_time = elapsed_time;
+
+        int window_w = 0;
+        int window_h = 0;
+        SDL_GetWindowSize(window.get(), &window_w, &window_h);
+        glViewport(0, 0, window_w, window_h);
 
         experiment->update(tick);
         experiment->render();

@@ -23,6 +23,7 @@ struct Color {
     g = static_cast<float>((hex >> 8) & 255)/255.f;
     b = static_cast<float>(hex & 255)/255.f;
   };
+  Color(color_map c) : Color(static_cast<int>(c)) {};
 };
 
 void color(int hex) {
