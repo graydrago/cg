@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     std::unique_ptr<Experiment> experiment;
-    selectExperiment("e2.14", experiment);
+    selectExperiment("2.19", experiment);
     std::string DEFAULT_TITLE = "CG";
 
     for (int i = 0; i < argc; ++i) {
@@ -108,6 +108,7 @@ int main(int argc, char *argv[]) {
                     break;
                 }
             }
+            experiment->input(events);
         }
 
         Uint32 elapsed_time = SDL_GetTicks();

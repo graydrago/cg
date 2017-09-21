@@ -16,6 +16,7 @@ class Experiment {
         };
         virtual ~Experiment() { SDL_Log("Destroyed: %s", m_name.c_str()); };
         virtual void init() {};
+        virtual void input(SDL_Event) {};
         virtual void update(double) {};
         virtual void render() {};
         virtual void run() {};
