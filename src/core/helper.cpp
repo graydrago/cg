@@ -8,14 +8,30 @@ static std::mt19937 gen(time(0));
 static std::uniform_real_distribution<> urd(0, 1); 
 
 enum class color_map : int{
-  black = 0x000000,
-  red = 0xff0000,
-  green = 0x00ff00,
-  blue = 0x0000ff,
-  yellow = 0xffff00,
-  magenta = 0xff00ff,
-  cyan = 0x00ffff,
-  white = 0xffffff
+    //black = 0x000000,
+    //red = 0xff0000,
+    //green = 0x00ff00,
+    //blue = 0x0000ff,
+    //yellow = 0xffff00,
+    //magenta = 0xff00ff,
+    //cyan = 0x00ffff,
+    white = 0xffffff,
+    navy = 0x001f3f,
+    blue = 0X0074d9,
+    aqua = 0X7fdbff,
+    teal = 0X39cccc,
+    olive = 0X3d9970,
+    green = 0X2ecc40,
+    lime = 0X01ff70,
+    yellow = 0Xffdc00,
+    orange = 0Xff851b,
+    red = 0Xff4136,
+    maroon = 0X85144B,
+    fuchsia = 0Xf012be,
+    purple = 0Xb10dc9,
+    black = 0X111111,
+    gray = 0Xaaaaaa,
+    silver = 0Xdddddd
 };
 
 struct Color {
