@@ -2,19 +2,14 @@
 
 #include <string>
 #include <random>
+#include <cassert>
 #include <GL/gl.h>
 
 static std::mt19937 gen(time(0)); 
 static std::uniform_real_distribution<> urd(0, 1); 
 
+
 enum class color_map : int{
-    //black = 0x000000,
-    //red = 0xff0000,
-    //green = 0x00ff00,
-    //blue = 0x0000ff,
-    //yellow = 0xffff00,
-    //magenta = 0xff00ff,
-    //cyan = 0x00ffff,
     white = 0xffffff,
     navy = 0x001f3f,
     blue = 0X0074d9,
@@ -31,8 +26,9 @@ enum class color_map : int{
     purple = 0Xb10dc9,
     black = 0X111111,
     gray = 0Xaaaaaa,
-    silver = 0Xdddddd
+    silver = 0Xdddddd,
 };
+
 
 struct Color {
   float r;
@@ -53,3 +49,73 @@ void color(int hex) { Color c(hex); glColor3f(c.r, c.g, c.b); }
 void color(color_map c) { color(static_cast<int>(c)); }
 void random_color() { glColor3f(urd(gen), urd(gen), urd(gen)); }
 Color get_random_color() { return Color(urd(gen), urd(gen), urd(gen)); }
+
+
+std::vector<float> make_circle(float radius = 40.f, int segments = 50) {
+    std::vector<float> points;
+    points.reserve(segments * 3);
+    for (int i = 0; i <= segments; ++i) {
+        float y = std::sin(i*2*M_PI/segments) * radius;
+        float x = std::cos(i*2*M_PI/segments) * radius;
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(0);
+    }
+    return points;
+}
+
+
+std::vector<float> make_helix(float len = M_PI, float height = 1, float radius = 40.f, int segments = 25) {
+    std::vector<float> points;
+    int _s = segments * len;
+    float _h = height / segments;
+    points.reserve(_s);
+    for (int i = 0; i <= _s; ++i) {
+        float y = std::sin(i*len/_s) * radius;
+        float x = std::cos(i*len/_s) * radius;
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(_h * i);
+    }
+    return points;
+}
+
+
+std::vector<float> make_sin(float len = M_PI, float period = M_PI, float amplitude = 1, unsigned int segments = 50) {
+    std::vector<float> points;
+    float step = len / segments;
+    points.reserve(segments);
+    for (unsigned int i = 0; i < segments; ++i) {
+        float y = amplitude * std::sin((2*M_PI/period) * step*(float)i);
+        float x = step * i;
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(0);
+    }
+    return points;
+}
+
+
+std::vector<float> make_ellipse(float radius_x, float radius_y, int segments = 100) {
+    std::vector<float> points;
+    float step = (2*M_PI) / segments;
+    points.reserve(segments);
+    for (int i = 0; i <= segments; ++i) {
+        float y = radius_y * std::sin(i*step);
+        float x = radius_x * std::cos(i*step);
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(0);
+    }
+    return points;
+}
+
+
+void draw_primitive(std::vector<float> &points, GLenum type = GL_POINTS) {
+    int size = points.size() / 3;
+    glBegin(type);
+    for (int i = 0; i < size; ++i) {
+        glVertex3f(points[i*3], points[i*3+1], points[i*3+2]);
+    }
+    glEnd();
+}
