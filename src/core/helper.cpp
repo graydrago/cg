@@ -85,6 +85,23 @@ std::vector<float> make_disc(float outer_r = 40.f, float inner_r = 20.f, int seg
 }
 
 
+std::vector<float> make_ring(float radius = 40.f, float width = 10.f, int segments = 25) {
+    std::vector<float> points;
+    points.reserve(segments * 3 * 2);
+    for (int i = 0; i <= segments; ++i) {
+        float y = std::sin(i*2*M_PI/segments) * radius;
+        float x = std::cos(i*2*M_PI/segments) * radius;
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(0);
+        points.push_back(x);
+        points.push_back(y);
+        points.push_back(width);
+    }
+    return points;
+}
+
+
 std::vector<float> make_helix(float len = M_PI, float height = 1, float radius = 40.f, int segments = 25) {
     std::vector<float> points;
     int _s = segments * len;
