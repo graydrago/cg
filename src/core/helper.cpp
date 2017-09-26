@@ -102,6 +102,23 @@ std::vector<float> make_ring(float radius = 40.f, float width = 10.f, int segmen
 }
 
 
+std::vector<float> make_cone(float radius = 10.f, float height = 40.f, int segments = 25) {
+    std::vector<float> points;
+    points.reserve(segments * 3 + 3);
+    points.push_back(0);
+    points.push_back(height);
+    points.push_back(0);
+    for (int i = 0; i <= segments; ++i) {
+        float x = std::sin(i*2*M_PI/segments) * radius;
+        float z = std::cos(i*2*M_PI/segments) * radius;
+        points.push_back(x);
+        points.push_back(0);
+        points.push_back(z);
+    }
+    return points;
+}
+
+
 std::vector<float> make_helix(float len = M_PI, float height = 1, float radius = 40.f, int segments = 25) {
     std::vector<float> points;
     int _s = segments * len;
