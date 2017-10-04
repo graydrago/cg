@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     std::unique_ptr<Experiment> experiment;
-    selectExperiment("e2.34", experiment);
+    selectExperiment("2.24", experiment);
     std::string DEFAULT_TITLE = "CG";
 
     for (int i = 0; i < argc; ++i) {
@@ -111,16 +111,16 @@ int main(int argc, char *argv[]) {
             experiment->input(events);
         }
 
-        Uint32 elapsed_time = SDL_GetTicks();
-        Uint32 tick = (elapsed_time - start_time) * 0.001;
-        start_time = elapsed_time;
+        Uint32 current_time = SDL_GetTicks();
+        double elapsed = (current_time - start_time) * 0.001;
+        start_time = current_time;
 
         int window_w = 0;
         int window_h = 0;
         SDL_GetWindowSize(window.get(), &window_w, &window_h);
         glViewport(0, 0, window_w, window_h);
 
-        experiment->update(tick);
+        experiment->update(elapsed);
         experiment->render();
 
         SDL_GL_SwapWindow(window.get());

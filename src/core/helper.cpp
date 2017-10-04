@@ -165,6 +165,114 @@ std::vector<float> make_ellipse(float radius_x, float radius_y, int segments = 1
 }
 
 
+std::vector<float> make_sphere(float radius = 40, int latitude_segments = 32, int longitude_segments = 32) {
+    // a -- c
+    // |  / |
+    // | /  |
+    // b -- d
+    //
+    // abc bdc
+    //
+    // a = { j: 1, i: 0 }
+    // b = { j: 0, i: 0 }
+    // c = { j: 1, i: 1 }
+    // d = { j: 0, i: 1 }
+
+    using std::cos;
+    using std::sin;
+
+    std::vector<float> points;
+    int half_latitude_segments = latitude_segments / 2;
+    int half_longitude_segments = longitude_segments / 2;
+    float lts = 2*M_PI/latitude_segments;
+    float lns = M_PI/longitude_segments;
+
+    for (int j = -half_longitude_segments; j < half_longitude_segments; ++j) {
+        for (int i = -half_latitude_segments; i < half_latitude_segments; ++i) {
+            // a
+            points.push_back(cos((j+1)*lns) * cos(i*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin(i*lts) * radius);
+            // b
+            points.push_back(cos(j*lns) * cos(i*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin(i*lts) * radius);
+            // c
+            points.push_back(cos((j+1)*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin((i+1)*lts) * radius);
+            // b
+            points.push_back(cos(j*lns) * cos(i*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin(i*lts) * radius);
+            // d
+            points.push_back(cos(j*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin((i+1)*lts) * radius);
+            // c
+            points.push_back(cos((j+1)*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin((i+1)*lts) * radius);
+        }
+    }
+    return points;
+}
+
+
+std::vector<float> make_hemisphere(float radius = 40, int latitude_segments = 32, int longitude_segments = 16) {
+    // a -- c
+    // |  / |
+    // | /  |
+    // b -- d
+    //
+    // abc bdc
+    //
+    // a = { j: 1, i: 0 }
+    // b = { j: 0, i: 0 }
+    // c = { j: 1, i: 1 }
+    // d = { j: 0, i: 1 }
+
+    using std::cos;
+    using std::sin;
+
+    std::vector<float> points;
+    int half_latitude_segments = latitude_segments / 2;
+    int half_longitude_segments = longitude_segments / 2;
+    float lts = 2*M_PI/latitude_segments;
+    float lns = M_PI/longitude_segments;
+
+    for (int j = 0; j < half_longitude_segments; ++j) {
+        for (int i = -half_latitude_segments; i < half_latitude_segments; ++i) {
+            // a
+            points.push_back(cos((j+1)*lns) * cos(i*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin(i*lts) * radius);
+            // b
+            points.push_back(cos(j*lns) * cos(i*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin(i*lts) * radius);
+            // c
+            points.push_back(cos((j+1)*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin((i+1)*lts) * radius);
+            // b
+            points.push_back(cos(j*lns) * cos(i*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin(i*lts) * radius);
+            // d
+            points.push_back(cos(j*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin(j*lns) * radius);
+            points.push_back(cos(j*lns) * sin((i+1)*lts) * radius);
+            // c
+            points.push_back(cos((j+1)*lns) * cos((i+1)*lts) * radius);
+            points.push_back(sin((j+1)*lns) * radius);
+            points.push_back(cos((j+1)*lns) * sin((i+1)*lts) * radius);
+        }
+    }
+    return points;
+}
+
+
 void draw_primitive(std::vector<float> &points, GLenum type = GL_POINTS) {
     int size = points.size() / 3;
     glBegin(type);

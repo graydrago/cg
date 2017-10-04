@@ -9,6 +9,7 @@
 class Experiment {
     private:
         std::string m_name;
+        float m_elapsed;
 
     public:
         Experiment(std::string name) : m_name(name) {
