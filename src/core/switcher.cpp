@@ -28,6 +28,7 @@
 #include "../chapter_2/exercise_2_32.cpp"
 #include "../chapter_2/exercise_2_33.cpp"
 #include "../chapter_2/exercise_2_34.cpp"
+#include "../chapter_2/exercise_2_36.cpp"
 
 void selectExperiment(std::string name, std::unique_ptr<Experiment> &current) {
     if (name == "2.1") { current.reset(new Experiment_2_1()); }
@@ -54,5 +55,6 @@ void selectExperiment(std::string name, std::unique_ptr<Experiment> &current) {
     else if (name == "e2.32") { current.reset(new Exercise_2_32()); }
     else if (name == "e2.33") { current.reset(new Exercise_2_33()); }
     else if (name == "e2.34") { current.reset(new Exercise_2_34()); }
+    else if (name == "e2.36") { current.reset(new Exercise_2_36()); }
     else { SDL_Log("Experiment %s was not found", name.c_str()); }
 }

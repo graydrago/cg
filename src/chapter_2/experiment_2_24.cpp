@@ -11,10 +11,13 @@
 class Experiment_2_24 : public Experiment {
     public:
         std::vector<float> m_hsphere;
-        float m_dir_y;
-        float m_dir_x;
-        float m_angle_x;
-        float m_angle_y;
+        float m_dir_y = 0;
+        float m_dir_x = 0;
+        float m_angle_x = 0;
+        float m_angle_y = 0;
+        float m_radius = 40;
+        float m_lat_segments = 32;
+        float m_lon_segments = 16;
 
         Experiment_2_24() : Experiment("2.24") {}
 
@@ -26,17 +29,37 @@ class Experiment_2_24 : public Experiment {
             glFrustum(-5, 5, -5, 5, 5, 1000);
             glPointSize(4);
             glEnable(GL_DEPTH_TEST);
-            m_hsphere = make_hemisphere();
-            m_dir_x = 0;
-            m_dir_y = 0;
-            m_angle_x = 0;
-            m_angle_y = 0;
+            m_hsphere = make_hemisphere(m_radius, m_lat_segments, m_lon_segments);
         }
 
         void input(SDL_Event events) {
             switch (events.type) {
                 case SDL_KEYDOWN: {
                     switch (events.key.keysym.sym) {
+                        case SDLK_w: {
+                            m_lat_segments += 2;
+                            if (m_lat_segments > 100) m_lat_segments = 100;
+                            m_hsphere = make_hemisphere(m_radius, m_lat_segments, m_lon_segments);
+                            break;
+                        }
+                        case SDLK_s: {
+                            m_lat_segments -= 2;
+                            if (m_lat_segments < 4) m_lat_segments = 4;
+                            m_hsphere = make_hemisphere(m_radius, m_lat_segments, m_lon_segments);
+                            break;
+                        }
+                        case SDLK_a: {
+                            m_lon_segments += 2;
+                            if (m_lon_segments > 100) m_lon_segments = 100;
+                            m_hsphere = make_hemisphere(m_radius, m_lat_segments, m_lon_segments);
+                            break;
+                        }
+                        case SDLK_d: {
+                            m_lon_segments -= 2;
+                            if (m_lon_segments < 4) m_lon_segments = 4;
+                            m_hsphere = make_hemisphere(m_radius, m_lat_segments, m_lon_segments);
+                            break;
+                        }
                         case SDLK_LEFT: m_dir_y = -1; break;
                         case SDLK_RIGHT: m_dir_y = 1; break;
                         case SDLK_UP: m_dir_x = -1; break;
