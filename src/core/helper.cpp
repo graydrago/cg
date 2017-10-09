@@ -4,6 +4,7 @@
 #include <random>
 #include <cassert>
 #include <GL/gl.h>
+#include <glm/glm.hpp>
 
 static std::mt19937 gen(time(0)); 
 static std::uniform_real_distribution<> urd(0, 1); 
@@ -278,6 +279,15 @@ void draw_primitive(std::vector<float> &points, GLenum type = GL_POINTS) {
     glBegin(type);
     for (int i = 0; i < size; ++i) {
         glVertex3f(points[i*3], points[i*3+1], points[i*3+2]);
+    }
+    glEnd();
+}
+
+
+void draw_primitive(std::vector<glm::vec2> &points, GLenum type = GL_POINTS) {
+    glBegin(type);
+    for (auto p : points) {
+        glVertex3f(p.x, p.y, 0);
     }
     glEnd();
 }

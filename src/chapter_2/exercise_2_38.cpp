@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <glm/glm.hpp>
 
 #include <GL/gl.h>
 
@@ -94,6 +95,11 @@ class Exercise_2_38 : public Experiment {
                             m_shape = make_shape();
                             break;
                         }
+                        case SDLK_6: {
+                            m_shape_type = ShapeType::ragby_football;
+                            m_shape = make_shape();
+                            break;
+                        }
                         case SDLK_LEFT: m_dir_y = -1; break;
                         case SDLK_RIGHT: m_dir_y = 1; break;
                         case SDLK_UP: m_dir_x = -1; break;
@@ -148,7 +154,7 @@ class Exercise_2_38 : public Experiment {
               case ShapeType::lampshade_1: shape = make_lampshade(m_radius*2, 30); break;
               case ShapeType::lampshade_2: shape = make_lampshade(m_radius*2, 30, m_lat_segments); break;
               case ShapeType::spiral_band: shape = make_spiral_band(3, m_radius*0.6, 6, 10, m_lat_segments); break;
-              case ShapeType::ragby_football: shape = make_lampshade(40, 40); break;
+              case ShapeType::ragby_football: shape = make_ragby_football(40, 20, 20, m_lat_segments, m_lon_segments); break;
             }
             return shape;
         }
@@ -326,6 +332,69 @@ class Exercise_2_38 : public Experiment {
             }
 
             return points;
+        }
+
+
+        std::vector<float> make_ragby_football(float width = 4, float length = 2, float height = 2, int latitude_segments = 32, int longitude_segments = 8) {
+            using std::cos;
+            using std::sin;
+            using namespace glm;
+
+            float radius_x = width;
+            float radius_y = height;
+            float radius_z = length;
+
+            std::vector<glm::vec3> points;
+            int half_latitude_segments = latitude_segments / 2;
+            int half_longitude_segments = longitude_segments / 2;
+            float lts = 2*M_PI/latitude_segments;
+            float lns = M_PI/longitude_segments;
+
+            for (int j = 0; j < half_longitude_segments; ++j) {
+                for (int i = -half_latitude_segments; i < half_latitude_segments; ++i) {
+                    vec3 a {
+                        cos((j+1)*lns) * cos(i*lts) * radius_x,
+                        sin((j+1)*lns) * radius_y,
+                        cos((j+1)*lns) * sin(i*lts) * radius_z
+                    };
+                    vec3 b {
+                        cos(j*lns) * cos(i*lts) * radius_x,
+                        sin(j*lns) * radius_y,
+                        cos(j*lns) * sin(i*lts) * radius_z,
+                    };
+                    vec3 c {
+                        cos((j+1)*lns) * cos((i+1)*lts) * radius_x,
+                        sin((j+1)*lns) * radius_y,
+                        cos((j+1)*lns) * sin((i+1)*lts) * radius_z
+                    };
+                    vec3 d {
+                        cos(j*lns) * cos((i+1)*lts) * radius_x,
+                        sin(j*lns) * radius_y,
+                        cos(j*lns) * sin((i+1)*lts) * radius_z
+                    };
+
+                    points.push_back(a);
+                    points.push_back(b);
+                    points.push_back(c);
+                    points.push_back(b);
+                    points.push_back(d);
+                    points.push_back(c);
+                }
+            }
+
+            std::vector<float> result;
+            for (auto &p : points) {
+                result.push_back(p.x);
+                result.push_back(p.y);
+                result.push_back(p.z);
+            }
+            for (auto &p : points) {
+                result.push_back(p.x);
+                result.push_back(-p.y);
+                result.push_back(p.z);
+            }
+
+            return result;
         }
 };
 
