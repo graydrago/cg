@@ -291,3 +291,12 @@ void draw_primitive(std::vector<glm::vec2> &points, GLenum type = GL_POINTS) {
     }
     glEnd();
 }
+
+
+void draw_primitive(std::vector<glm::vec3> &points, GLenum type = GL_POINTS) {
+    glBegin(type);
+    for (auto p : points) {
+        glVertex3f(p.x, p.y, p.z);
+    }
+    glEnd();
+}
