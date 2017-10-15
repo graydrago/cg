@@ -33,6 +33,7 @@
 
 #include "../chapter_3/exercise_3_1.cpp"
 #include "../chapter_3/exercise_3_2.cpp"
+#include "../chapter_3/exercise_3_4.cpp"
 
 #include "../own/own_1.cpp"
 
@@ -66,6 +67,7 @@ void selectExperiment(std::string name, std::unique_ptr<Experiment> &current) {
 
     else if (name == "e3.1") { current.reset(new Exercise_3_1()); }
     else if (name == "e3.2") { current.reset(new Exercise_3_2()); }
+    else if (name == "e3.4") { current.reset(new Exercise_3_4()); }
 
     else if (name == "o1") { current.reset(new Own_1()); }
     else { SDL_Log("Experiment %s was not found", name.c_str()); }

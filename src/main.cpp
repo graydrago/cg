@@ -5,16 +5,14 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <thread>
 
 #include "core/app.cpp"
 #include "core/experiment.cpp"
 #include "core/switcher.cpp"
 
 int main(int argc, char *argv[]) {
-    std::unique_ptr<Experiment> experiment;
-    selectExperiment("e3.2", experiment);
     std::string DEFAULT_TITLE = "CG";
+    std::string DEFAULT_EXPERIMENT = "e3.4";
 
     for (int i = 0; i < argc; ++i) {
         SDL_Log("%s", argv[i]);
@@ -45,6 +43,9 @@ int main(int argc, char *argv[]) {
     }
 
     glewInit();
+
+    std::unique_ptr<Experiment> experiment;
+    selectExperiment(DEFAULT_EXPERIMENT, experiment);
 
     SDL_Event events;
     bool play = true;
