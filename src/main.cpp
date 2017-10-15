@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     std::unique_ptr<Experiment> experiment;
-    selectExperiment("e3.1", experiment);
+    selectExperiment("e3.2", experiment);
     std::string DEFAULT_TITLE = "CG";
 
     for (int i = 0; i < argc; ++i) {

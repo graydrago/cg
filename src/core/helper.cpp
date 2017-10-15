@@ -49,6 +49,7 @@ void color(Color c) { glColor3f(c.r, c.g, c.b); }
 void color(int hex) { Color c(hex); glColor3f(c.r, c.g, c.b); }
 void color(color_map c) { color(static_cast<int>(c)); }
 void random_color() { glColor3f(urd(gen), urd(gen), urd(gen)); }
+glm::vec3 random_color_v3() { return glm::vec3(urd(gen), urd(gen), urd(gen)); }
 Color get_random_color() { return Color(urd(gen), urd(gen), urd(gen)); }
 
 
